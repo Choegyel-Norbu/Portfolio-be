@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JwtFilter implements Filter {
 
 	private static final String[] AUTH_WHITELIST = { "/auth/login", "/auth/sendOtp", "/auth/login_google", "/auth/verifyOtp",
-			"/api/register", "/auth/google"
+			"/api/register", "/auth/google", "/api/getIntouch", "/api/rating", "/api/averageRating"
 	};
 
 	@Override

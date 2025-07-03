@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import com.chogyal.portfolio.dto.EnquiryDTO;
+import com.chogyal.portfolio.dto.RatingDTO;
 import com.chogyal.portfolio.dto.UserDTO;
 import com.chogyal.portfolio.model.User;
 
@@ -20,6 +22,9 @@ public interface UserService {
 	public UserDTO addRole(String email, List<String> roleNames);
 	
 	public User verifyGoogleToken(String toTokenString);
+	public boolean getInTouch(EnquiryDTO dto);
 	
+	public boolean saveRating(RatingDTO dto);
+	public int averageRating();
 }
 	

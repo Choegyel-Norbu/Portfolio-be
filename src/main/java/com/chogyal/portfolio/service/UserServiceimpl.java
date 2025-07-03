@@ -12,8 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.chogyal.portfolio.dto.EnquiryDTO;
+import com.chogyal.portfolio.dto.RatingDTO;
 import com.chogyal.portfolio.dto.UserDTO;
+import com.chogyal.portfolio.model.Enquiry;
+import com.chogyal.portfolio.model.Rating;
 import com.chogyal.portfolio.model.User;
+import com.chogyal.portfolio.repository.EnquiryRepository;
+import com.chogyal.portfolio.repository.RatingRepository;
 import com.chogyal.portfolio.repository.UserRepository;
 import com.chogyal.portfolio.util.PasswordEncoder;
 import com.chogyal.portfolio.util.UserRole;
@@ -33,6 +39,12 @@ public class UserServiceimpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	EnquiryRepository enquiryRepo;
+	
+	@Autowired
+	RatingRepository ratingRepository;
 
 
 	@Override
@@ -115,6 +127,30 @@ public class UserServiceimpl implements UserService {
 			throw new RuntimeException("User save failed", e);
 		}
 		return null;
+	}
+
+	@Override
+	public boolean getInTouch(EnquiryDTO dto) {
+		Enquiry enquiry = new Enquiry();
+		enquiry.setFullName(dto.getFullName());
+		enquiry.setEmail(dto.getEmail());
+		enquiry.setSubject(dto.getSubject());
+		enquiry.setMessage(dto.getMessage());
+		
+		return enquiryRepo.save(enquiry) != null;
+	}
+
+	@Override
+	public boolean saveRating(RatingDTO dto) {
+		Rating rating = new Rating();
+		rating.setFeedback(dto.getFeedback());
+		rating.setStars(dto.getStars());
+		return ratingRepository.save(rating) != null;
+	}
+
+	@Override
+	public int averageRating() {
+		return ratingRepository.averageRating();
 	}
 
 }

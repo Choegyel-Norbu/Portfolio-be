@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chogyal.portfolio.dto.EnquiryDTO;
+import com.chogyal.portfolio.dto.RatingDTO;
 import com.chogyal.portfolio.dto.UserDTO;
 import com.chogyal.portfolio.dto.UserResponseDTO;
 import com.chogyal.portfolio.model.User;
@@ -104,9 +106,33 @@ public class UserController {
 	public Optional<User> updateUser(@PathVariable Long id, @RequestBody User product) {
 		return userService.updateUser(id, product);
 	}
+	
+	@PostMapping("/getIntouch")
+	public ResponseEntity<?> getInTouch(@RequestBody EnquiryDTO dto){
+		if (!userService.getInTouch(dto)) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
+
+		}
+		return ResponseEntity.ok(true);
+	}
+	
+	@PostMapping("/rating")
+	public ResponseEntity<?> saveRating(@RequestBody RatingDTO dto){
+		if (!userService.saveRating(dto)) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
+
+		}
+		return ResponseEntity.ok(true);
+	}
+	
+	@GetMapping("/averageRating")
+	public int averageRating() {
+		return userService.averageRating();
+	}
 
 	private boolean checkUserEmail(String email) {
 		return userRepository.findByEmail(email) != null;
 	}
+	
 
 }
